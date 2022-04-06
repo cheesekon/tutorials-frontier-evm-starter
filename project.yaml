@@ -36,7 +36,7 @@ dataSources:
           kind: substrate/FrontierEvmEvent
           filter:
             topics:
-              - List(address indexed from, address indexed to, uint256 sopo_id, uint256 nft_id, address nft_programe_address)
+              - Listed(address indexed from, address indexed to, uint256 sopo_id, uint256 nft_id, address nft_programe_address)
 
         # - handler: handleListAndSellEvent
         #   kind: substrate/FrontierEvmEvent
