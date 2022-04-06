@@ -9,61 +9,73 @@ schema:
   file: "./schema.graphql"
 
 network:
-  genesisHash: '0x401a1f9dca3da46f5c4091016c8a2f26dcea05865116b286f60f668207d1474b' # Genesis hash of Moonriver
-  endpoint: wss://moonriver.api.onfinality.io/public-ws
+  endpoint: 'wss://gateway.testnet.octopus.network/barnacle-evm/wj1hhcverunusc35jifki19otd4od1n5'
+  genesisHash: '0xd0599a36a2fb1e958d74c51c439b63f5ee91b7c107940caec1ec78958c2d3422'
   # Optionally provide the HTTP endpoint of a full chain dictionary to speed up processing
-  dictionary: 'https://api.subquery.network/sq/subquery/moonriver-dictionary'
+  dictionary: 'https://sz.api.subquery.network/sq/subquery/moonbase-alpha-dictionary'
   chaintypes:
     file: ./dist/chaintypes.js
 
 dataSources:
   - kind: substrate/FrontierEvm
-    startBlock: 752073
+    startBlock: 131756
     processor:
       file: './node_modules/@subql/contract-processors/dist/frontierEvm.js'
       options:
         # Must be a key of assets
-        abi: erc20
+        abi: sopometa
         ## The contract that emitted the event
-        address: '0x6bd193ee6d2104f14f94e2ca6efefae561a4334b'
+        address: '0x8d15Db7450508eF9486d928162D72FB9128d658b'
     assets:
-      erc20:
-        file: './erc20.abi.json'
+      sopometa:
+        file: './sopometa.abi.json'
     mapping:
       file: './dist/index.js'
       handlers:
-        - handler: handleFrontierEvmEvent
+        - handler: handleListEvent
           kind: substrate/FrontierEvmEvent
           filter:
-            ## Topics that follow Ethereum JSON-RPC log filters
-            ## https://docs.ethers.io/v5/concepts/events/
-            ## With a couple of added benefits:
-            ##  - Values don't need to be 0 padded
-            ##  - Event fragments can be provided and automatically converted to their id
             topics:
-              ## Example valid values:
-              # - '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
-              # - Transfer(address,address,u256)
-              # - Transfer(address from,address to,uint256 value)
+              - List(address indexed from, address indexed to, uint256 sopo_id, uint256 nft_id, address nft_programe_address)
 
-              ## Example of OR filter, will capture Transfer or Approval events
-              # - - 'Transfer(address indexed from,address indexed to,uint256 value)'
-              #   - 'Approval(address indexed owner, address indexed spender, uint256 value)'
+        # - handler: handleListAndSellEvent
+        #   kind: substrate/FrontierEvmEvent
+        #   filter:
+        #     topics:
+        #       - Listandforsell(address indexed from, address indexed to, uint256 sopo_id, uint256 nft_id, address nft_programe_address, uint256 price)
 
-              - Transfer(address indexed from,address indexed to,uint256 value)
-              ## topics[1] to topics[3] are the indexed values
-              - null
-              - null
-              - null
-        - handler: handleFrontierEvmCall
-          kind: substrate/FrontierEvmCall
-          filter:
-            ## The function can either be the method fragment or signature
-            # function: '0x095ea7b3'
-            # function: '0x7ff36ab500000000000000000000000000000000000000000000000000000000'
-            # function: approve(address,uint256)
-            function: approve(address to,uint256 value)
-            ## The transaction sender
-            from: '0x6bd193ee6d2104f14f94e2ca6efefae561a4334b'
+        # - handler: handleForsellEvent
+        #   kind: substrate/FrontierEvmEvent
+        #   filter:
+        #     topics:
+        #       - Forsell(uint256 sopo_id,uint256 price)
+        # - handler: handleNewOfferEvent
+        #   kind: substrate/FrontierEvmEvent
+        #   filter:
+        #     topics:
+        #       - Newoffer(address from,address to,uint256 sopo_id,uint256 price)
+        # - handler: handleWithdrawEvent
+        #   kind: substrate/FrontierEvmEvent
+        #   filter:
+        #     topics:
+        #       - Withdraw(address from,address to,uint256 sopo_id,uint256 nft_id,address nft_programe_address,uint32 withdrawout_at)
+        # - handler: handleSelledEvent
+        #   kind: substrate/FrontierEvmEvent
+        #   filter:
+        #     topics:
+        #       - Selled(address from,address to,uint256 sopo_id,uint32 selled_at,uint256 nft_id,address nft_programe_address,address owner)
+
+
+ 
+        # - handler: handleFrontierEvmCall
+        #   kind: substrate/FrontierEvmCall
+        #   filter:
+        #     ## The function can either be the method fragment or signature
+        #     # function: '0x095ea7b3'
+        #     # function: '0x7ff36ab500000000000000000000000000000000000000000000000000000000'
+        #     # function: approve(address,uint256)
+        #     function: approve(address to,uint256 value)
+        #     ## The transaction sender
+        #     from: '0x6bd193ee6d2104f14f94e2ca6efefae561a4334b'
 
 
