@@ -1,2 +1,0 @@
-export const SopoERC721Address = '0x397973bB49dbDfC1F8024eC6C1c745c53220590f'
-

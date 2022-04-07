@@ -9,8 +9,8 @@
     "test": "jest",
     "codegen": "./node_modules/.bin/subql codegen"
   },
-  "homepage": "https://github.com/subquery/tutorials-frontier-evm-starter",
-  "repository": "github:subquery/tutorials-frontier-evm-starter",
+  "homepage": "https://github.com/cheesekon/tutorials-frontier-evm-starter",
+  "repository": "github:cheesekon/tutorials-frontier-evm-starter",
   "files": [
     "dist",
     "schema.graphql",

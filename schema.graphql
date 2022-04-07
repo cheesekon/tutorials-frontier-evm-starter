@@ -5,33 +5,9 @@ type SopoItem @entity {
 
   contractAddress: String!
   tokenId: BigInt!
-  sopoId: BigInt!
+  # sopoId: BigInt!
 
   onSale: Boolean!
   price: Float!
 
-  metadata: Metadata!
-
-}
-
-type Metadata @entity {
-  id: ID!
-  name: String!
-  image: String!
-  describtion: String!
-  properties: Properties!
-}
-
-type Properties @entity {
-  id: ID!
-  traits: [Traits]!
-}
-
-type Traits @entity {
-  id: ID!
-  trait_type: String!
-  value: Int!
-  display_type: String!
-  max_value: Int!
-  trait_count: Int!
 }
